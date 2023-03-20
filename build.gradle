@@ -1,0 +1,53 @@
+buildscript {
+    ext{
+        springBootVersion = '3.0.4'
+    }
+
+    // 配制插件仓库
+    repositories {
+        mavenLocal()
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public' }
+        google()
+        mavenCentral()
+    }
+
+    // 此处先引入springboot插件
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    }
+}
+
+allprojects {
+    group = 'com.xingyu'
+    version = '0.0.1-SNAPSHOT'
+
+    // 使用springboot支持插件
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'java-library' // 提供api依赖方式支持
+    // 使用springboot支持插件
+    apply plugin:'org.springframework.boot'
+    // 提供dependencyManagement支持
+    apply plugin: "io.spring.dependency-management"
+
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+
+    repositories {
+        mavenLocal()
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven {url 'https://repo.spring.io/milestone'}
+        mavenCentral()
+    }
+
+    dependencies {
+        api 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
+
+    test{
+        useJUnitPlatform()
+    }
+
+}
